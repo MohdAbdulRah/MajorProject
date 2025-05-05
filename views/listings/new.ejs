@@ -1,0 +1,97 @@
+
+<body>
+   
+    <div class="row">
+        <div class="col-8 offset-2">
+
+            <h1>Add a New Listing</h1>
+            <br>
+    <form method="post" action="http://localhost:3000/listing" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Enter title : </label>
+            <input type="text" name="title" id="" class="form-control" placeholder="Enter a Catchy title" required>
+            <div class="valid-feedback">
+                Title Looks good!
+              </div>
+            <div class="invalid-feedback">
+                please enter title
+              </div>
+        </div>
+        
+        <div class="mb-3">
+        <label for="description" class="form-label">Enter Description</label>
+        <textarea name="description" maxlength="100" class="form-control" placeholder="Enter description" required></textarea>
+        <div class="valid-feedback">
+            Nice description
+          </div>
+        <div class="invalid-feedback">
+            please enter description
+          </div> 
+        </div>
+
+        <div class="mb-3">
+        <label for="image" class="form-label">Upload Image</label>
+        <input type="file" name="image" id="" class="form-control" required>
+       </div>
+
+       <div class="row">
+        <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Enter Price</label>
+            <input type="number" name="price" id="" class="form-control" placeholder="00" required>
+            <div class="invalid-feedback">
+                please enter valid price
+              </div>
+           </div>
+    
+           <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Enter Country</label>
+            <input type="text" name="country" id="" class="form-control" placeholder="Enter Country" required>
+            <div class="invalid-feedback">
+                please enter valid country
+              </div>
+           </div>
+       </div>
+       
+
+       <div class="mb-3">
+        <label for="location" class="form-label">Enter location</label>
+        <input type="text" name="location" id="" class="form-control" placeholder="Enter location" required>
+        <div class="invalid-feedback">
+            please enter valid location
+          </div>
+       </div>
+
+       <br>
+       Choose at max 3
+       <br>
+       <label><input type="checkbox" name="categories" value="trending"> Trending</label><br>
+  <label><input type="checkbox" name="categories" value="room"> Room</label><br>
+  <label><input type="checkbox" name="categories" value="BeachFronts"> BeachFronts</label><br>
+  <label><input type="checkbox" name="categories" value="Tropical"> Tropical</label><br>
+  <label><input type="checkbox" name="categories" value="mountain"> Mountain</label><br>
+  <label><input type="checkbox" name="categories" value="Towers"> Towers</label><br>
+  <label><input type="checkbox" name="categories" value="arctic"> Arctic</label><br>
+  <label><input type="checkbox" name="categories" value="boats"> Boats</label><br>
+  <label><input type="checkbox" name="categories" value="play"> Play</label><br>
+  <label><input type="checkbox" name="categories" value="skiing"> Skiing</label><br>
+       <br>
+        <button class="btn btn-danger mb-3">Submit
+        </button>
+        <br>
+    </form>
+
+</div>
+</div>
+</body>
+<script>
+  const checkboxes = document.querySelectorAll('input[name="categories"]');
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checkedCount = document.querySelectorAll('input[name="categories"]:checked').length;
+      if (checkedCount > 3) {
+        cb.checked = false; // uncheck the one that was just clicked
+        alert("You can select a maximum of 3 categories.");
+      }
+    });
+  });
+</script>

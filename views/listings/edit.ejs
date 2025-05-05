@@ -1,0 +1,86 @@
+
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+
+            <h1>Edit Listing</h1>
+            <br>
+    <form method="post" action="http://localhost:3000/listing/<%= chat._id%>?_method=PATCH" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Enter title : </label>
+            <input type="text" name="title" id="" value="<%= chat.title%>" class="form-control" required>
+            <div class="valid-feedback">
+                Title Looks good!
+              </div>
+            <div class="invalid-feedback">
+                please enter title
+              </div>
+        </div>
+         
+        <div class="mb-3">
+            <label for="description" class="form-label">Enter Description</label>
+            <textarea name="description" maxlength="100" class="form-control" required><%= chat.description %></textarea>
+            <div class="valid-feedback">
+                Nice description
+              </div>
+            <div class="invalid-feedback">
+                please enter description
+              </div> 
+        </div>
+        
+        <div class="mb-3">
+            Your Original Image: <br>
+            <img src="<%= imageUrl %>" alt="">
+        </div>
+        <div class="mb-3"> 
+            <label for="image" class="form-label">ChooseImage</label>
+            <input type="file" name="image" id=""  class="form-control">
+            <div class="invalid-feedback">
+                please enter image url
+              </div> 
+        </div>
+        
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Enter Price</label>
+                <input type="number" name="price" id="" value="<%= chat.price%>" class="form-control" required>
+                <div class="invalid-feedback">
+                    please enter valid price
+                  </div>
+            </div>
+
+            <div class="mb-3 col-md-8">
+                <label for="country" class="form-label">Enter Country</label>
+                <input type="text" name="country" id="" value="<%= chat.country%>" class="form-control" required>
+                <div class="invalid-feedback">
+                    please enter valid country
+                  </div>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="location" class="form-label">Enter location</label>
+            <input type="text" name="location" id="" value="<%= chat.location%>" class="form-control" required>
+            <div class="invalid-feedback">
+                please enter valid location
+              </div>
+        </div>
+        
+        <br>
+       Choose at max 3
+       <br>
+        <label><input type="checkbox" name="categories" value="trending"> Trending</label><br>
+  <label><input type="checkbox" name="categories" value="room"> Room</label><br>
+  <label><input type="checkbox" name="categories" value="BeachFronts"> BeachFronts</label><br>
+  <label><input type="checkbox" name="categories" value="Tropical"> Tropical</label><br>
+  <label><input type="checkbox" name="categories" value="mountain"> Mountain</label><br>
+  <label><input type="checkbox" name="categories" value="Towers"> Towers</label><br>
+  <label><input type="checkbox" name="categories" value="arctic"> Arctic</label><br>
+  <label><input type="checkbox" name="categories" value="boats"> Boats</label><br>
+  <label><input type="checkbox" name="categories" value="play"> Play</label><br>
+  <label><input type="checkbox" name="categories" value="skiing"> Skiing</label><br>
+       <br>
+        <button class="btn btn-danger mb-3">Submit
+        </button>
+    </form>
+</body>

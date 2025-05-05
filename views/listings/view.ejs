@@ -1,0 +1,206 @@
+
+<body>
+  <!-- <script>
+    // const mapToken = "process.env.MAP_TOKEN %>"
+  </script> -->
+    <div class="row mt-3">
+        <div class="col-8 offset-2">
+
+    
+    <h3><%= chat.title %></h3>
+    <% if (chat.owner) { %>
+      <i>~By <%= chat.owner.username %></i>
+    <% } else { %>
+      <i>~By Unknown</i>
+    <% } %>
+</div>
+    <div class="card col-6 offset-2">
+        <img src="<%= chat.image.url %>" class="card-img-top show-img" alt="..." >
+        <div class="card-body">
+          <p class="card-text"> <b></b>
+           <br>
+           <%= chat.description %>
+           <br>
+           <% if (chat.price) { %>
+            <br>&#8377; <%= chat.price.toLocaleString("en-IN") %> /night
+          <% } else { %>
+            <br><em>Price not available</em>
+          <% } %>
+          <br>
+          <%= chat.location %>,<%= chat.country %>
+          </p>
+          
+        </div>
+      </div>
+
+      
+      
+
+</div>
+<% if(currUser && currUser._id.toString() == chat.owner._id.toString()){ %>
+<div class="row offset-2">
+    <div class="col-1">
+        <a href="/listing/<%= chat._id %>/edit" class="btn btn-danger">Edit</a>
+        
+      </div>
+      
+      <div class="col-1">
+        <form method="post" action="http://localhost:3000/listing/<%= chat._id %>?_method=DELETE">
+            <button class="btn btn-warning">Delete</button>
+        </form>
+      </div>
+</div>
+<% } %>
+   <hr>
+
+   <% if(currUser) { %>
+    <div class="row offset-2 mt-5">
+      <h4>Leave a Review</h4>
+
+      <form method="post" action="http://localhost:3000/listing/<%= chat._id %>/review" novalidate class="needs-validation">
+         <div class="mb-3 col-md-4">
+          <fieldset class="starability-slot">
+            <legend>Enter rating:</legend>
+            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="rating" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="rating" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="rating" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="rating" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="rating" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+         </div>
+
+         <div>
+           <label for="comment" class="form-label">Enter Comment</label>
+           <br>
+           <textarea name="comment" cols="30" rows="5" class="form-control" required></textarea>
+           <div class="invalid-feedback">
+            please enter valid comment
+          </div>
+         </div>
+         <br>
+
+         <button class="btn btn-danger mb-3">Submit
+        </button>
+      </form>
+    </div>
+   <hr>
+   <% } %>
+   
+   <% if(chat.reviews.length) { %>
+   <div class="container mt-4">
+    <h4 class="mb-3 text-success">Reviews</h4>
+    <div class="row offset-md-1">
+      <% for(let review of chat.reviews) { %>
+        <div class="col-md-8 mb-3">
+          <div class="card shadow-sm border-0">
+            
+            <div class="card-body">
+              <p>~By <%= review.author.username %></p>
+              <p class="card-text"><%= review.comment %></p>
+              <div class="d-flex align-items-center justify-content-between">
+                <span ><p class="starability-result" data-rating="<%= review.rating %>">
+                  Rated: <%= review.rating %> stars
+                </p></span>
+                <!-- class="badge bg-warning text-dark" -->
+                <% if(currUser && review.author._id.toString() == currUser._id.toString()){%>
+                <form method="POST" action="http://localhost:3000/listing/<%= chat._id %>/review/<%= review._id %>?_method=DELETE" >
+                  <button class="btn btn-sm btn-outline-danger ms-3">Delete</button>
+                </form>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <hr>
+  <% } %>
+     <div class="">
+      <h4>Where You'll be</h4>
+      <div id="map"></div>  /<!-- for map use leaflet ask chatgpt
+                                  for geocoding use open cage geocoding-->
+    </div>
+    
+    <!-- Input Form to enter location
+    <input type="text" id="locationInput" placeholder="Enter location (e.g. Mumbai, Maharashtra)" />
+    <button onclick="geocodeLocation()">Find Location</button> -->
+
+    <script>
+        // Create a map centered on India initially
+        var map = L.map('map').setView([20.5937, 78.9629], 5);  // Center of India with zoom level 5
+
+        // Add a tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Create a blue marker icon
+        var blueIcon = L.icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            shadowSize: [41, 41]
+        });
+
+        // Function to geocode a location string (e.g., "Mumbai, Maharashtra")
+        function geocodeLocation(loc) {
+            var location = loc; // Get input from user
+
+            if (!location) {
+                console.log("Location input is empty");
+                alert("Please enter a location.");
+                return;
+            }
+
+            console.log("Geocoding for location:", location); // Log input value
+
+            // Using OpenCage Geocoding API (replace YOUR_API_KEY with a valid key)
+            var apiKey = 'b11520e860394766ab42adc63bca8260';  // Get a free API key from OpenCage
+            var geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${apiKey}`;
+
+            // Fetch geocoding results from OpenCage API
+            fetch(geocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        var latLng = data.results[0].geometry;  // Get the first result (most relevant)
+                        console.log("Found location:", location, "Latitude: " + latLng.lat + ", Longitude: " + latLng.lng);
+
+                        // Clear any existing markers
+                        map.eachLayer(function(layer) {
+                            if (layer instanceof L.Marker) {
+                                map.removeLayer(layer);
+                            }
+                        });
+
+                        // Add a blue marker to the map at the geocoded location
+                        L.marker([latLng.lat, latLng.lng], { icon: blueIcon }).addTo(map).bindPopup("You'll be at Location: " + location).openPopup();
+                        
+                        // Zoom the map to the new location and center the map
+                        map.setView([latLng.lat, latLng.lng], 13);
+                    } else {
+                        console.log("No geocoding results found for location:", location);
+                        alert("Location not found.");
+                    }
+                })
+                .catch(error => {
+                    console.log("Error during geocoding:", error);
+                    alert("Geocoding failed. Please try again later.");
+                });
+        }
+
+        geocodeLocation("<%= chat.location %>,<%= chat.country %>")
+    </script>
+</body>

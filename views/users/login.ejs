@@ -1,0 +1,33 @@
+<body>
+    <div class="row">
+        <div class="col-6 offset-3">
+
+            <h1>Login WanderLust</h1>
+             
+            <form  method="post" action="http://localhost:3000/login" novalidate class="needs-validation">
+               
+                <div class="mb-3">
+                    <label for="username" class="form-label">Enter Your username</label>
+                    <input type="text" name="username" class="form-control" required>
+                    <div class="invalid-feedback">
+                        please enter valid username
+                      </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Enter Your password</label>
+                    <input type="password" name="password" class="form-control" required>
+                    <div class="invalid-feedback">
+                        please enter valid password
+                      </div>
+                </div>
+        
+                <button class="btn btn-success mb-3">Login</button>
+             </form>
+        </div>
+        
+    </div>
+
+    <p>Dont have an account sign up</p>
+    <a href="/signup" class="btn btn-danger">Signup</a>
+     
+</body>

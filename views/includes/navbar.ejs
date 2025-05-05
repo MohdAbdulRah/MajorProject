@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/listing">
+      <i class="fa-regular fa-compass"></i>
+    </a>
+
+    <!-- Toggler (3 lines) -->
+    <button class="navbar-toggler d-sm-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Menu -->
+    <div class="collapse navbar-collapse  bg-light" id="navbarNavAltMarkup">
+      <!-- Left Nav -->
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listing">Explore</a>
+      </div>
+
+      <!-- Right Nav -->
+      <div class="navbar-nav ms-auto d-flex flex-column flex-md-row align-items-md-center gap-2 w-100 justify-content-md-end">
+
+        <!-- Search bar: visible only on large screens and up -->
+        <form class="d-none d-lg-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 20rem;">
+          <button class="btn btn-danger d-flex rounded-pill" type="submit">
+            <i class="bi bi-search me-1"></i>Search
+          </button>
+        </form>
+
+        <!-- Airbnb Your Home (visible always inside collapse) -->
+        <a class="nav-link" href="/listing/new">Airbnb Your Home</a>
+
+        <% if(currUser){ %>
+          <!-- Logout (visible always inside collapse) -->
+          <a class="nav-link" href="/logout"><b>Logout</b></a>
+
+          <!-- Profile icon + username: hidden on sm/md -->
+          <p class="nav-link m-0 d-none d-lg-flex flex-column align-items-center text-center">
+            <i class="bi bi-person-circle fs-4"></i>
+            <%= currUser.username %>
+          </p>
+        <% } else { %>
+          <!-- Auth links -->
+          <a class="nav-link" href="/signup"><b>Signup</b></a>
+          <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+

@@ -1,0 +1,175 @@
+<style>
+    #filters{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .icon{
+      font-size: 1rem !important;
+    }
+    .filter{
+      text-align: center;
+      margin-right: 2rem;
+      margin-top: 2rem;
+      opacity: 0.7;
+    }
+    .filter:hover{
+      opacity: 1;
+      cursor: pointer;
+    }
+    .filter p{
+      font-size: 1rem;
+    }
+    .tax-info{
+      display: none;
+    }
+    .tax-toggle{
+      border: 1px solid black;
+      padding: 1rem;
+      border-radius: 2rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+    }
+
+</style>
+<body>
+         
+        <!-- <h1>ALL listings</h1> -->
+     <div id="filters" class="d-none d-lg-flex">
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-fire"></i></div>
+        <p>trending</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-bed"></i></div>
+        <p>room</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>BeachFronts</p>
+      </div>
+      
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-tree"></i></div>
+        <p>Tropical</p>
+      </div>
+      
+      <div class="filter">
+         <div><i class="fa-solid fa-mountain"></i></div>
+        <p>mountain</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-city"></i></div>
+        <p>Towers</p>
+      </div>
+      
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-snowflake"></i></div>
+        <p>arctic</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-sailboat"></i></div>
+        <p>boats</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-table-tennis-paddle-ball"></i></div>
+        <p>play</p>
+      </div>
+      <div class="filter">
+         <div class="icon"><i class="fa-solid fa-person-skiing"></i></div>
+        <p>skiing</p>
+      </div>
+
+      <div class="tax-toggle ms-auto">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+        </div>
+      </div>
+      
+     </div>
+     
+     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+
+
+      
+        <% if(lists){ for(let list of lists){ %>
+          
+            <a href="http://localhost:3000/listing/<%= list._id %>" class="listing-link">
+                <div class="card special <% for(let cat of list.categories){ %> 
+                     <% if(cat == "top of world") { %>
+                          <%= "top-of-world" %>
+                      <% }else { %>   
+                         <%= cat %> 
+                   <%} } %>" >
+                    <img src="<%= list.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                      <p class="card-text"><b><%= list.title%></b>
+                        <br><% if (list.price) { %>
+                            <br>&#8377; <%= list.price.toLocaleString("en-IN") %> /night
+                            <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
+                          <% } else { %>
+                            <br><em>Price not available</em>
+                          <% } %>
+                      </p>
+
+                     
+                    </div>
+                  </div>
+            </a>
+            
+          <% } } %>
+     </div>
+    
+      
+    
+</body>
+
+<script>
+
+    
+     let tax_switch = document.querySelector("#flexSwitchCheckDefault")
+     let tax_info = document.querySelectorAll(".tax-info")
+     tax_switch.addEventListener("click",()=>{
+
+        for(info of tax_info){
+          if(info.style.display != "inline"){
+            info.style.display = "inline"
+          }
+          else{
+            info.style.display = "none"
+          }
+        }
+          
+     })
+     let filters = document.querySelectorAll(".filter");
+let listings = document.querySelectorAll(".special");
+let activeFilter = null;
+
+
+filters.forEach(filter => {
+  filter.addEventListener("click", () => {
+    let category = filter.querySelector("p").innerText.trim().replace(/\s+/g, '-');
+
+    if (activeFilter === category) {
+      // Deselect filter
+      filters.forEach(f => f.style.opacity = 0.7);
+      listings.forEach(listing => listing.parentElement.style.display = "block");
+      activeFilter = null;
+    } else {
+      // Select new filter
+      filters.forEach(f => f.style.opacity = 0.7);
+      filter.style.opacity = 1;
+      listings.forEach(listing => {
+        listing.parentElement.style.display = listing.classList.contains(category) ? "block" : "none";
+      });
+      activeFilter = category;
+    }
+  });
+});
+
+
+</script>
