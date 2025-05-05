@@ -61,7 +61,7 @@ module.exports.postRoute = async (req,res)=>{
     })
 
     req.flash("success","A new Listing Created")
-    res.redirect("http://localhost:3000/listing")
+    res.redirect("/listing")
 
 }
 
@@ -76,7 +76,7 @@ module.exports.deleteRoute = async (req,res)=>{
         console.log(err)
     })
     req.flash("success","Listing Deleted")
-    res.redirect("http://localhost:3000/listing")
+    res.redirect("/listing")
 }
 
 module.exports.update = async (req,res)=>{
