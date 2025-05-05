@@ -45,7 +45,7 @@
       </div>
       
       <div class="col-1">
-        <form method="post" action="http://localhost:3000/listing/<%= chat._id %>?_method=DELETE">
+        <form method="post" action="/listing/<%= chat._id %>?_method=DELETE">
             <button class="btn btn-warning">Delete</button>
         </form>
       </div>
@@ -109,7 +109,7 @@
                 </p></span>
                 <!-- class="badge bg-warning text-dark" -->
                 <% if(currUser && review.author._id.toString() == currUser._id.toString()){%>
-                <form method="POST" action="http://localhost:3000/listing/<%= chat._id %>/review/<%= review._id %>?_method=DELETE" >
+                <form method="POST" action="/listing/<%= chat._id %>/review/<%= review._id %>?_method=DELETE" >
                   <button class="btn btn-sm btn-outline-danger ms-3">Delete</button>
                 </form>
                 <% } %>
