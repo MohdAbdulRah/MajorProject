@@ -96,7 +96,7 @@
       
         <% if(lists){ for(let list of lists){ %>
           
-            <a href="http://localhost:3000/listing/<%= list._id %>" class="listing-link">
+            <a href="/listing/<%= list._id %>" class="listing-link">
                 <div class="card special <% for(let cat of list.categories){ %> 
                      <% if(cat == "top of world") { %>
                           <%= "top-of-world" %>
