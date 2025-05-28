@@ -111,7 +111,7 @@ app.use("/",userRouter)
 
 
 app.get("/",(req,res)=>{
-    res.send("Home Directory")
+    res.redirect("/listing")
 })
 
 
